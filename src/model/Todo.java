@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Todo {
 
     // attributes
+    private int id;
     private String title;
     private String description;
     private boolean completed;
@@ -13,14 +14,15 @@ public class Todo {
 
     // constructor
     public Todo(String title, String description) {
-        this.title = Objects.requireNonNull(title);
-        this.description = Objects.requireNonNull(description);
+        this.title = Objects.requireNonNull(title, "title must not be null");
+        this.description = Objects.requireNonNull(description, "description must not be null");
         this.completed = false;
         this.archived = false;
         this.priority =  5;
     }
 
     // getters
+    public int getId() { return id;}
     public String getTitle() { return title;}
     public String getDescription() {return description;}
     public boolean isCompleted() {return completed;}
@@ -28,6 +30,9 @@ public class Todo {
     public boolean isArchived(){ return archived;}
 
     // setters
+    public void setId(int id) {
+        this.id = id;
+    }
     public void setTitle(String title) {
         this.title = title;
     }
