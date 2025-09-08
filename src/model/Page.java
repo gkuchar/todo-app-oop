@@ -1,29 +1,69 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Page {
     // attributes
-    private int todo_count;
-    private final List<Todo> incomplete_todos = new ArrayList<>();
-    private final List<Todo> completed_todos = new ArrayList<>();
+    private final List<Todo> incompleteTodos = new ArrayList<>();
+    private final List<Todo> completedTodos = new ArrayList<>();
 
     // constructor
     public Page() {
-        this.todo_count = 0;
     }
 
     // getters
-    public int getTodo_count(){ return todo_count;}
-    public List<Todo> getCompleted_todos() { return completed_todos;}
-    public List<Todo> getIncomplete_todos() { return incomplete_todos;}
+    public List<Todo> getCompletedTodos() { return Collections.unmodifiableList(completedTodos);}
+    public List<Todo> getIncompleteTodos() { return Collections.unmodifiableList(incompleteTodos);}
 
     // setters
-    public void setTodo_count(int count) {
-        this.todo_count = count;
-    }
 
     // operations
+    public int getTotalTodoCount() {
+        return incompleteTodos.size() + completedTodos.size();
+    }
+
+    public int getIncompleteTodoCount() {
+        return incompleteTodos.size();
+    }
+
+    public int getCompletedTodoCount() {
+        return completedTodos.size();
+    }
+
+    public Todo addIncompleteTodo(Todo todo) {
+        if(incompleteTodos.contains(todo) || completedTodos.contains(todo)) {
+            throw new IllegalArgumentException("Task already exists");
+        }
+        else {
+            incompleteTodos.add(todo);
+        }
+        return todo;
+    }
+
+    public Todo markCompleted(Todo todo) {
+        if(!incompleteTodos.contains(todo)) {
+            throw new IllegalArgumentException("Task is already completed");
+        }
+        else {
+            incompleteTodos.remove(todo);
+        }
+        completedTodos.add(todo);
+        todo.setCompleted(true);
+        return todo;
+    }
+
+    public Todo markIncomplete(Todo todo) {
+        if(!completedTodos.contains(todo)) {
+            throw new IllegalArgumentException("Task is already marked incomplete");
+        }
+        else {
+            completedTodos.remove(todo);
+        }
+        incompleteTodos.add(todo);
+        todo.setCompleted(false);
+        return todo;
+    }
 
 }

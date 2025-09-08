@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Objects;
+import java.time.*;
 
 public class Todo {
 
@@ -11,6 +12,7 @@ public class Todo {
     private boolean completed;
     private int priority;
     private boolean archived;
+    private LocalDate dueDate;
 
     // constructor
     public Todo(String title, String description) {
@@ -19,6 +21,7 @@ public class Todo {
         this.completed = false;
         this.archived = false;
         this.priority =  5;
+        this.dueDate = null;
     }
 
     // getters
@@ -28,6 +31,7 @@ public class Todo {
     public boolean isCompleted() {return completed;}
     public int getPriority(){ return priority;}
     public boolean isArchived(){ return archived;}
+    public LocalDate getDueDate() { return dueDate;}
 
     // setters
     public void setId(int id) {
@@ -53,8 +57,15 @@ public class Todo {
     public void setArchived(boolean archived) {
         this.archived = archived;
     }
+    public void setDueDate(LocalDate dueDate) {
+        if(dueDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Due date is in the past");
+        }
+        else {
+            this.dueDate = dueDate;
+        }
+    }
 
     // operations
-
 
 }
