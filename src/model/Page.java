@@ -1,13 +1,14 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Page {
     // attributes
-    private final List<Todo> incompleteTodos = new ArrayList<>();
-    private final List<Todo> completedTodos = new ArrayList<>();
+    private List<Todo> incompleteTodos = new ArrayList<>();
+    private List<Todo> completedTodos = new ArrayList<>();
 
     // constructor
     public Page() {
@@ -30,16 +31,6 @@ public class Page {
 
     public int getCompletedTodoCount() {
         return completedTodos.size();
-    }
-
-    public Todo addIncompleteTodo(Todo todo) {
-        if(incompleteTodos.contains(todo) || completedTodos.contains(todo)) {
-            throw new IllegalArgumentException("Task already exists");
-        }
-        else {
-            incompleteTodos.add(todo);
-        }
-        return todo;
     }
 
     public Todo markCompleted(Todo todo) {
@@ -67,7 +58,78 @@ public class Page {
     }
 
     // CRUD
+    public Todo addTodo(Todo todo) {
+        if(incompleteTodos.contains(todo) || completedTodos.contains(todo)) {
+            throw new IllegalArgumentException("Task already exists");
+        }
+        else {
+            incompleteTodos.add(todo); // all Todos start incomplete
+        }
+        return todo;
+    }
 
-    // move to archive
+    public Todo findTodoById(int id) {
+        for(Todo todo : incompleteTodos) {
+            if (todo.getId() == id) {
+                return todo;
+            }
+        }
+        for(Todo todo : completedTodos) {
+            if (todo.getId() == id) {
+                return todo;
+            }
+        }
+        return null;
+    }
+
+    public Todo updateTodoById(int id, String newTitle, String newDesc, int newPrio, LocalDate newDueDate) {
+        Todo todo = findTodoById(id);
+        if (todo == null) {
+            throw new IllegalArgumentException("Todo with id '" + id + "' does not exist");
+        }
+        todo.setTitle(newTitle);
+        todo.setDescription(newDesc);
+        todo.setPriority(newPrio);
+        todo.setDueDate(newDueDate);
+
+        return todo;
+    }
+
+    public Todo deleteTodoById(int id) {
+        Todo todo = findTodoById(id);
+        if(todo == null) {
+            throw new IllegalArgumentException("Todo with id '" + id + "' does not exist");
+        }
+        if(incompleteTodos.contains(todo)) {
+            incompleteTodos.remove(todo);
+        }
+        if(completedTodos.contains(todo)) {
+            completedTodos.remove(todo);
+        }
+        return todo;
+    }
+
+    public boolean deleteAllCompletedTodos() {
+        if (completedTodos.isEmpty()) {
+            return false;
+        }
+        completedTodos.clear();
+        return true;
+    }
+
+    public boolean deleteAllIncompleteTodos() {
+        if(incompleteTodos.isEmpty()) {
+            return false;
+        }
+        incompleteTodos.clear();
+        return true;
+    }
+
+    public boolean deleteAllTodos() {
+        return (deleteAllCompletedTodos() && deleteAllIncompleteTodos());
+    }
+
+
+
 
 }

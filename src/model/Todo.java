@@ -5,6 +5,7 @@ import java.time.*;
 
 public class Todo {
 
+    private static int counter = 0;
     // attributes
     private int id;
     private String title;
@@ -22,6 +23,7 @@ public class Todo {
         this.archived = false;
         this.priority =  5;
         this.dueDate = null;
+        this.id = ++counter;
     }
 
     // getters

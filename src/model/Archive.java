@@ -15,6 +15,12 @@ public class Archive {
     }
 
     // operations
-    // addToArchive()
+    public Todo addToArchive(Todo todo) {
+        if(archive.contains(todo)) {
+            throw new IllegalArgumentException("Todo already in Archive");
+        }
+        archive.add(todo);
+        return todo;
+    }
 
 }
