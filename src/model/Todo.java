@@ -16,13 +16,13 @@ public class Todo {
     private LocalDate dueDate;
 
     // constructor
-    public Todo(String title, String description) {
+    public Todo(String title, String description, int priority, LocalDate dueDate) {
         this.title = Objects.requireNonNull(title, "title must not be null");
         this.description = Objects.requireNonNull(description, "description must not be null");
+        this.dueDate = Objects.requireNonNull(dueDate);
         this.completed = false;
         this.archived = false;
-        this.priority =  5;
-        this.dueDate = null;
+        this.priority =  priority;
         this.id = ++counter;
     }
 

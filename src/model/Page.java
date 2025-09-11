@@ -95,10 +95,10 @@ public class Page {
         return todo;
     }
 
-    public Todo deleteTodoById(int id) {
+    public boolean deleteTodoById(int id) {
         Todo todo = findTodoById(id);
         if(todo == null) {
-            throw new IllegalArgumentException("Todo with id '" + id + "' does not exist");
+            return false;
         }
         if(incompleteTodos.contains(todo)) {
             incompleteTodos.remove(todo);
@@ -106,7 +106,7 @@ public class Page {
         if(completedTodos.contains(todo)) {
             completedTodos.remove(todo);
         }
-        return todo;
+        return true;
     }
 
     public boolean deleteAllCompletedTodos() {
